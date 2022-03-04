@@ -8,6 +8,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import javax.security.auth.login.LoginException;
+import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -31,12 +32,12 @@ public class Main extends ListenerAdapter {
         }
 
         JSONObject jsn = (JSONObject) obj;
-        assert jsn != null;
+        assert jsn != null; //??
         String token = (String) jsn.get("token"); //get the data to variable
-        System.out.println("Bot Token: " + token);
         JDABuilder builder = JDABuilder.createDefault(token);
         builder.setActivity(Activity.playing("PC"));
         builder.setToken(token);
+        builder.addEventListeners(new Main());
 
         try {
             builder.build();
@@ -54,6 +55,10 @@ public class Main extends ListenerAdapter {
         if(event.getMessage().getContentRaw().equals("!Ping")){
             event.getChannel().sendMessage("Pong!").queue(); //important to call queue, or our messages wont be sent
         }
+    }
+
+    public void createPicture(){
+        BufferedImage background = new BufferedImage(1920, 1080, 1);
     }
 
 }
