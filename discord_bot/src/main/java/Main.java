@@ -1,6 +1,8 @@
 import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageHistory;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.json.simple.JSONObject;
@@ -12,6 +14,8 @@ import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Main extends ListenerAdapter {
     public static void main(String[] args) {
@@ -45,6 +49,9 @@ public class Main extends ListenerAdapter {
         catch(LoginException e){
             e.printStackTrace();
         }
+
+
+        //MessageHistory hstr = new MessageHistory();
     }
 
     @Override
@@ -55,10 +62,20 @@ public class Main extends ListenerAdapter {
         if(event.getMessage().getContentRaw().equals("!Ping")){
             event.getChannel().sendMessage("Pong!").queue(); //important to call queue, or our messages wont be sent
         }
+
+        MessageHistory hstr = new MessageHistory(event.getChannel());
+        List<Message> messages = hstr.getRetrievedHistory(); //list of the messages from the channel
+        
+        /*int sizeOfHistory = messages.size();
+        int randomMessage = ThreadLocalRandom.current().nextInt();
+        event.getChannel().sendMessage(messages.get(randomMessage % sizeOfHistory)).queue();*/
+
+
     }
 
     public void createPicture(){
-        BufferedImage background = new BufferedImage(1920, 1080, 1);
+        BufferedImage background = new BufferedImage(1920, 1080, BufferedImage.TYPE_INT_RGB);
+        background.getGraphics();
     }
 
 }
