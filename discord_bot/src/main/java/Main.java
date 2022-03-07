@@ -1,16 +1,22 @@
 import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageHistory;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.requests.RestAction;
+import net.dv8tion.jda.api.utils.AttachmentOption;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import javax.imageio.ImageIO;
 import javax.security.auth.login.LoginException;
+import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -50,32 +56,63 @@ public class Main extends ListenerAdapter {
             e.printStackTrace();
         }
 
-
-        //MessageHistory hstr = new MessageHistory();
     }
 
+    //1) how to choose random message from channel
+    //2) how to get text from the random message
+    //3)
     @Override
     public void onMessageReceived(MessageReceivedEvent event){
+        String msg;
         System.out.println("We received message from " +
                 event.getAuthor().getName() + ": " +
                 event.getMessage().getContentDisplay());
-        if(event.getMessage().getContentRaw().equals("!Ping")){
-            event.getChannel().sendMessage("Pong!").queue(); //important to call queue, or our messages wont be sent
+        msg = event.getMessage().getContentRaw();
+        String[] keyWords = msg.split(" ");
+        if(keyWords.length >= 3) {
+            if ((keyWords[0] + keyWords[1] + keyWords[2]).equalsIgnoreCase("явамзапрещаю")) {
+                event.getChannel().sendMessage(" ").addFile(makeImage(msg, typeOfPic.BAN.ordinal()), AttachmentOption.valueOf(msg)).queue();
+                event.getChannel().sendMessage("Pong!").queue(); //important to call queue, or our messages wont be sent
+            }
+        }
+        else if(keyWords.length == 2){
+            if ((keyWords[0] + keyWords[1]).equalsIgnoreCase("акак")) {
+                event.getChannel().sendMessage("Pong!").queue(); //important to call queue, or our messages wont be sent
+            }
         }
 
-        MessageHistory hstr = new MessageHistory(event.getChannel());
-        List<Message> messages = hstr.getRetrievedHistory(); //list of the messages from the channel
-        
-        /*int sizeOfHistory = messages.size();
-        int randomMessage = ThreadLocalRandom.current().nextInt();
-        event.getChannel().sendMessage(messages.get(randomMessage % sizeOfHistory)).queue();*/
-
-
     }
 
-    public void createPicture(){
-        BufferedImage background = new BufferedImage(1920, 1080, BufferedImage.TYPE_INT_RGB);
-        background.getGraphics();
-    }
+    public File makeImage(String text, int type){
+        if(typeOfPic.BAN.ordinal() == type){
+            BufferedImage image = null;
+            try {
+                image = ImageIO.read(new File("/home/cronion/Documents/discord_bot/src/main/resources/BAN.png"));
+            }
+            catch (IOException e){
+                e.printStackTrace();
+            }
 
+            assert image != null;
+            Graphics g = image.getGraphics();
+            g.setFont(g.getFont().deriveFont(30f));
+            g.setColor(Color.black);
+            g.drawString(text, 100, 100);
+            g.dispose();
+
+            try {
+                ImageIO.write(image, "png", new File("test.png"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+        return new File("/home/cronion/Documents/discord_bot/src/main/resources/test.png");
+    }
+}
+
+enum typeOfPic{
+    BAN,
+    HOW
 }
