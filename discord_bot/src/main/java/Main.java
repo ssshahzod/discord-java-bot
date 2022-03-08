@@ -71,7 +71,11 @@ public class Main extends ListenerAdapter {
         String[] keyWords = msg.split(" ");
         if(keyWords.length >= 3) {
             if ((keyWords[0] + keyWords[1] + keyWords[2]).equalsIgnoreCase("явамзапрещаю")) {
-                event.getChannel().sendMessage(" ").addFile(makeImage(msg, typeOfPic.BAN.ordinal()), AttachmentOption.valueOf(msg)).queue();
+                StringBuilder msgMeaning = new StringBuilder();
+                for(int i = 3; i < keyWords.length; i++){ //cutting part of the message
+                    msgMeaning.append(keyWords[i]);
+                }
+                event.getChannel().sendMessage(" ").addFile(makeImage(msgMeaning.toString(), typeOfPic.BAN.ordinal()), AttachmentOption.valueOf(msg)).queue();
                 event.getChannel().sendMessage("Pong!").queue(); //important to call queue, or our messages wont be sent
             }
         }
