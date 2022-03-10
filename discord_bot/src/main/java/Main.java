@@ -19,6 +19,9 @@ public class Main extends ListenerAdapter {
 
         try { //read config file with token
             file = new FileReader("/home/cronion/Documents/discord_bot/src/main/resources/config.json");
+            if (file == null){
+                file = new FileReader("C:\\Users\\1\\Documents\\Myprojects\\discord-bot\\discord_bot\\src\\main\\resources\\config.json");
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
