@@ -28,8 +28,10 @@ public class Main extends ListenerAdapter {
         FileReader file = null;
         Object obj = null;
 
-        try { //read config file with token
-            file = new FileReader("/home/cronion/Documents/discord_bot/src/main/resources/config.json");
+        try { //read config file
+            StringBuilder path = new StringBuilder(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+            path.append("../resources/config.json");
+            file = new FileReader(path.toString());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -91,7 +93,9 @@ public class Main extends ListenerAdapter {
         if(typeOfPic.BAN.ordinal() == type){
             BufferedImage image = null;
             try {
-                image = ImageIO.read(new File("/home/cronion/Documents/discord_bot/src/main/resources/BAN.png"));
+                StringBuilder path = new StringBuilder(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+                path.append("../resources/BAN");
+                image = ImageIO.read(new File(path.toString()));
             }
             catch (IOException e){
                 e.printStackTrace();
