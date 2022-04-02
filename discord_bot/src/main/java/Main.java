@@ -27,7 +27,6 @@ public class Main extends ListenerAdapter {
     public static void main(String[] args) {
         FileReader file = null;
         Object obj = null;
-
         try { //read config file
             StringBuilder path = new StringBuilder(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath());
             path.append("../resources/config.json");
@@ -74,9 +73,11 @@ public class Main extends ListenerAdapter {
         if(keyWords.length >= 3) {
             if ((keyWords[0] + keyWords[1] + keyWords[2]).equalsIgnoreCase("явамзапрещаю")) {
                 StringBuilder msgMeaning = new StringBuilder();
-                for(int i = 3; i < keyWords.length; i++){ //cutting part of the message
+                for(int i = 0; i < keyWords.length; i++){ //cutting part of the message
+                    if(i % 3 == 0)
+                        msgMeaning.append('\n');
                     msgMeaning.append(keyWords[i]);
-                }
+                } //removed text from the pic so we dont need to cut message*/
                 event.getChannel().sendMessage(" ").addFile(makeImage(msgMeaning.toString(), typeOfPic.BAN.ordinal()), AttachmentOption.valueOf(msg)).queue();
                 event.getChannel().sendMessage("Pong!").queue(); //important to call queue, or our messages wont be sent
             }
