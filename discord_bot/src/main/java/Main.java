@@ -29,7 +29,8 @@ public class Main extends ListenerAdapter {
         Object obj = null;
         try { //read config file
             StringBuilder path = new StringBuilder(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-            path.append("../resources/config.json");
+            path.append(".." + File.separator + "resources" + File.separator + "config.json");
+            System.out.println("IM HERE" + path);
             file = new FileReader(path.toString());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
