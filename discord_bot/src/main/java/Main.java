@@ -96,7 +96,7 @@ public class Main extends ListenerAdapter {
             BufferedImage image = null;
             try {
                 StringBuilder path = new StringBuilder(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-                path.append("../resources/BAN");
+                path.append(".." + File.separator +"resources" + File.separator + "BAN");
                 image = ImageIO.read(new File(path.toString()));
             }
             catch (IOException e){
