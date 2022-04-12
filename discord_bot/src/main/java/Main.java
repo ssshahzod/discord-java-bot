@@ -1,12 +1,7 @@
-import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageHistory;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.utils.AttachmentOption;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -16,30 +11,23 @@ import javax.imageio.ImageIO;
 import javax.security.auth.login.LoginException;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
+import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 public class Main extends ListenerAdapter {
     public static void main(String[] args) {
-        FileReader file = null;
-        Object obj = null;
-        try { //read config file
-            StringBuilder path = new StringBuilder(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-            path.append(".." + File.separator + "resources" + File.separator + "config.json");
-            System.out.println("IM HERE" + path);
-            file = new FileReader(path.toString());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
 
-        try{ //parse data from file
-            obj = new JSONParser().parse(file);
-        }
-        catch(IOException | ParseException e){
+        Object obj = null;
+        //read config file
+        //StringBuilder path = new StringBuilder(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        URL strm = classLoader.getResource("config.json");
+        try {
+            File tmp = new File(strm.toURI());
+            obj = new JSONParser().parse(String.valueOf(tmp));
+
+        } catch(URISyntaxException | ParseException e){
             e.printStackTrace();
         }
 
@@ -60,9 +48,7 @@ public class Main extends ListenerAdapter {
 
     }
 
-    //1) how to choose random message from channel
-    //2) how to get text from the random message
-    //3)
+
     @Override
     public void onMessageReceived(MessageReceivedEvent event){
         String msg;
