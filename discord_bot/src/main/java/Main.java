@@ -19,8 +19,6 @@ public class Main extends ListenerAdapter {
     public static void main(String[] args) {
 
         Object obj = null;
-        //read config file
-        //StringBuilder path = new StringBuilder(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath());
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         URL strm = classLoader.getResource("config.json");
         try {
@@ -30,6 +28,21 @@ public class Main extends ListenerAdapter {
         } catch(URISyntaxException | ParseException e){
             e.printStackTrace();
         }
+
+        /*FileReader file = null;
+        Object obj = null;
+        try { //read config file with token
+            file = new FileReader("/home/cronion/Documents/discord_bot/src/main/resources/config.json");
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        try{ //parse data from file
+            obj = new JSONParser().parse(file);
+        }
+        catch(IOException | ParseException e){
+            e.printStackTrace();
+        }*/
 
         JSONObject jsn = (JSONObject) obj;
         assert jsn != null; //??
