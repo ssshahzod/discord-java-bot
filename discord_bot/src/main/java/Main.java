@@ -19,11 +19,17 @@ public class Main extends ListenerAdapter {
     public static void main(String[] args) {
 
         Object obj = null;
+        FileReader tmp = null;
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         URL strm = classLoader.getResource("config.json");
         String []path = (String.valueOf(strm)).split(":");
         try {
-            FileReader tmp = new FileReader(path[1]);
+            if(path.length > 2){
+                tmp = new FileReader(path[1] + ':' + path[2]);
+            }
+            else {
+                tmp = new FileReader(path[1]);
+            }
             obj = new JSONParser().parse(tmp);
 
         } catch(ParseException | IOException e){
