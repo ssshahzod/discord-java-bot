@@ -12,7 +12,6 @@ import javax.security.auth.login.LoginException;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.URISyntaxException;
 import java.net.URL;
 
 public class Main extends ListenerAdapter {
@@ -29,10 +28,11 @@ public class Main extends ListenerAdapter {
         } catch(ParseException | IOException e){
             e.printStackTrace();
         }
-        
+
         JSONObject jsn = (JSONObject) obj;
         assert jsn != null; //??
         String token = (String) jsn.get("token"); //get the data to variable
+
         JDABuilder builder = JDABuilder.createDefault(token);
         builder.setActivity(Activity.playing("PC"));
         builder.setToken(token);
