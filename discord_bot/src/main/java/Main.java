@@ -8,6 +8,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import javax.imageio.ImageIO;
+import javax.management.StringValueExp;
 import javax.security.auth.login.LoginException;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -83,12 +84,22 @@ public class Main extends ListenerAdapter {
     }
 
     public File makeImage(String text, int type){
+        StringBuilder returnPath = new StringBuilder();
         if(typeOfPic.BAN.ordinal() == type){
             BufferedImage image = null;
             try {
-                StringBuilder path = new StringBuilder(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-                path.append(".." + File.separator +"resources" + File.separator + "BAN");
+                StringBuilder path = new StringBuilder();
+                String tmp = new String(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+                /*path.append(".." + File.separator +"resources" + File.separator + "BAN");
+                image = ImageIO.read(new File(path.toString()));*/
+                String[] pathAr = tmp.split(File.separator);
+                for(int i = 0; i < pathAr.length - 3; i++){
+                    path.append(pathAr[i]).append(File.separator);
+                }
+                returnPath.append(String.valueOf(path.append("resources").append(File.separator).append("main").append(File.separator)));
+                path.append("BAN.png");
                 image = ImageIO.read(new File(path.toString()));
+
             }
             catch (IOException e){
                 e.printStackTrace();
@@ -109,7 +120,7 @@ public class Main extends ListenerAdapter {
 
 
         }
-        return new File("/home/cronion/Documents/discord_bot/src/main/resources/test.png");
+        return new File(returnPath.append("test.png").toString());
     }
 }
 

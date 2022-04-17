@@ -3,3 +3,5 @@ progs
 config.json
 .idea
 build
+.gradle
+build
