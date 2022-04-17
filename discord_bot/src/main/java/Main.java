@@ -69,8 +69,8 @@ public class Main extends ListenerAdapter {
                 for(int i = 0; i < keyWords.length; i++){ //cutting part of the message
                     if(i % 3 == 0)
                         msgMeaning.append('\n');
-                    msgMeaning.append(keyWords[i]);
-                } //removed text from the pic so we dont need to cut message*/
+                    msgMeaning.append(keyWords[i]).append(" ");
+                } //removed text from the pic so we dont need to cut message
                 event.getChannel().sendMessage(" ").addFile(makeImage(msgMeaning.toString(), typeOfPic.BAN.ordinal()), AttachmentOption.valueOf(msg)).queue();
                 event.getChannel().sendMessage("Pong!").queue(); //important to call queue, or our messages wont be sent
             }
