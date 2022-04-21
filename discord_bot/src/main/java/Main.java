@@ -8,7 +8,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import javax.imageio.ImageIO;
-import javax.management.StringValueExp;
 import javax.security.auth.login.LoginException;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -82,7 +81,6 @@ public class Main extends ListenerAdapter {
         }
 
     }
-
     public File makeImage(String text, int type){
         StringBuilder returnPath = new StringBuilder();
         if(typeOfPic.BAN.ordinal() == type){
@@ -90,8 +88,6 @@ public class Main extends ListenerAdapter {
             try {
                 StringBuilder path = new StringBuilder();
                 String tmp = new String(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-                /*path.append(".." + File.separator +"resources" + File.separator + "BAN");
-                image = ImageIO.read(new File(path.toString()));*/
                 String[] pathAr = tmp.split(File.separator);
                 for(int i = 0; i < pathAr.length - 3; i++){
                     path.append(pathAr[i]).append(File.separator);
@@ -109,6 +105,19 @@ public class Main extends ListenerAdapter {
             Graphics g = image.getGraphics();
             g.setFont(g.getFont().deriveFont(30f));
             g.setColor(Color.black);
+            /*StringBuilder tmp = new StringBuilder();
+            * int xStart = 100, yStart = 100;
+            * for(int i = 0; i < text.length(); i++){
+            *     tmp.append(text[i]).append(" ");
+            *     if(i % 3 == 0){
+            *         g.drawString(tmp.toString(), xStart, yStart);
+            *         tmp.clean(); //remove words from builder
+            *         xStart += 40;
+            *         yStart += 40;
+            *     }
+            * }
+            * g.dispose();
+            * */
             g.drawString(text, 100, 100);
             g.dispose();
 
