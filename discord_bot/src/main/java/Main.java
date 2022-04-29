@@ -76,8 +76,7 @@ public class Main extends ListenerAdapter {
                 attachment = makeImage(msgMeaning.toString(), typeOfPic.BAN.ordinal());
                 event.getChannel().sendMessage(" ")
                         .addFile(new File("test.png"))
-                        .queue();
-                event.getChannel().sendMessage("Pong!").queue(); //important to call queue, or our messages wont be sent
+                        .queue();//important to call queue, or our messages wont be sent
             }
         }
         /*else if(keyWords.length == 2){
