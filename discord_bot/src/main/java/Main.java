@@ -1,3 +1,4 @@
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -69,19 +70,28 @@ public class Main extends ListenerAdapter {
                     if(i % 3 == 0)
                         msgMeaning.append('\n');
                     msgMeaning.append(keyWords[i]).append(" ");
-                } //removed text from the pic so we dont need to cut message
-                event.getChannel().sendMessage(" ").addFile(makeImage(msgMeaning.toString(), typeOfPic.BAN.ordinal()), AttachmentOption.valueOf(msg)).queue();
+                }
+
+                File attachment;
+                attachment = makeImage(msgMeaning.toString(), typeOfPic.BAN.ordinal());
+                event.getChannel().sendMessage(" ")
+                        .addFile(new File("test.png"))
+                        .setEmbeds(new EmbedBuilder()
+                                .setImage("attachment://dog.png")
+                                .build())
+                        .queue();
                 event.getChannel().sendMessage("Pong!").queue(); //important to call queue, or our messages wont be sent
             }
         }
-        else if(keyWords.length == 2){
+        /*else if(keyWords.length == 2){
             if ((keyWords[0] + keyWords[1]).equalsIgnoreCase("акак")) {
                 event.getChannel().sendMessage("Pong!").queue(); //important to call queue, or our messages wont be sent
             }
-        }
+        }*/
 
     }
     public File makeImage(String text, int type){
+        String[] textBywords = text.split(" ");
         StringBuilder returnPath = new StringBuilder();
         if(typeOfPic.BAN.ordinal() == type){
             BufferedImage image = null;
@@ -105,20 +115,18 @@ public class Main extends ListenerAdapter {
             Graphics g = image.getGraphics();
             g.setFont(g.getFont().deriveFont(30f));
             g.setColor(Color.black);
-            /*StringBuilder tmp = new StringBuilder();
-            * int xStart = 100, yStart = 100;
-            * for(int i = 0; i < text.length(); i++){
-            *     tmp.append(text[i]).append(" ");
-            *     if(i % 3 == 0){
-            *         g.drawString(tmp.toString(), xStart, yStart);
-            *         tmp.clean(); //remove words from builder
-            *         xStart += 40;
-            *         yStart += 40;
-            *     }
-            * }
-            * g.dispose();
-            * */
-            g.drawString(text, 100, 100);
+            StringBuilder tmp = new StringBuilder();
+              int xStart = 100, yStart = 100;
+              for(int i = 0; i < textBywords.length; i++){
+                  tmp.append(textBywords[i]).append(" ");
+                  if(i != 0 & i % 3 == 0){
+                      g.drawString(tmp.toString(), xStart, yStart);
+                      tmp.setLength(0); //remove words from builder
+                      xStart += 40;
+                      yStart += 40;
+                  }
+              }
+            g.drawString(tmp.toString(), xStart, yStart);
             g.dispose();
 
             try {
