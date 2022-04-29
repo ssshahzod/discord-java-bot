@@ -76,9 +76,6 @@ public class Main extends ListenerAdapter {
                 attachment = makeImage(msgMeaning.toString(), typeOfPic.BAN.ordinal());
                 event.getChannel().sendMessage(" ")
                         .addFile(new File("test.png"))
-                        .setEmbeds(new EmbedBuilder()
-                                .setImage("attachment://dog.png")
-                                .build())
                         .queue();
                 event.getChannel().sendMessage("Pong!").queue(); //important to call queue, or our messages wont be sent
             }
