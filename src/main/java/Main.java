@@ -16,6 +16,11 @@ import java.io.*;
 import java.net.URL;
 
 public class Main extends ListenerAdapter {
+    String helpMessage = "Discord bot that sends images/gifs by keywords. " +
+        "!help - shows this message." +            
+        "!add \"keyword *Tenor link to gif*\" - add gif and send it everytime when keyword was used." +
+        "";
+        
     public static void main(String[] args) {
 
         Object obj = null;
@@ -63,7 +68,13 @@ public class Main extends ListenerAdapter {
                 event.getMessage().getContentDisplay());
         msg = event.getMessage().getContentRaw();
         String[] keyWords = msg.split(" ");
-        if(keyWords.length >= 3) {
+
+        if(keyWords[0].equals("!help")){
+            event.getChannel().sendMessage(helpMessage).queue();
+        }
+
+        //special case for own usage
+        else if(keyWords.length >= 3) {
             if ((keyWords[0] + keyWords[1] + keyWords[2]).equalsIgnoreCase("явамзапрещаю")) {
                 StringBuilder msgMeaning = new StringBuilder();
                 for(int i = 0; i < keyWords.length; i++){ //cutting part of the message
